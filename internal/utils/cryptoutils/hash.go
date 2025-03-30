@@ -12,6 +12,6 @@ func HashSHA256(input string) string {
 	// Write the input string to the hash
 	h.Write([]byte(input))
 
-	// Calculate the hash and convert it to a byte slice
+	// Calculate the hash and return it as a hexadecimal string
 	return hex.EncodeToString(h.Sum(nil))
 }
