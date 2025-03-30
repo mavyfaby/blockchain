@@ -28,23 +28,57 @@ func TestGeneratePrivateKey(t *testing.T) {
 	}
 }
 
-// TestGeneratePrivateKeyStr tests the GeneratePrivateKeyStr function.
-func TestGeneratePrivateKeyStr(t *testing.T) {
-	// Generate a new private key string
-	privateKeyStr, err := cryptoutils.GeneratePrivateKeyStr()
+// TestGeneratePublicKey tests the GeneratePublicKey function.
+func TestGeneratePublicKey(t *testing.T) {
+	// Generate a new private key
+	privateKey, err := cryptoutils.GeneratePrivateKey()
 
 	// Check for errors
 	if err != nil {
-		t.Fatalf("Failed to generate private key string: %v", err)
+		t.Fatalf("Failed to generate private key: %v", err)
 	}
 
-	// Check if the private key string is empty
-	if privateKeyStr == "" {
-		t.Fatal("Generated private key string is empty")
+	// Generate the public key from the private key
+	publicKey := cryptoutils.GeneratePublicKey(privateKey)
+
+	// Check if the public key is empty
+	if publicKey == "" {
+		t.Fatal("Generated public key is empty")
 	}
 
-	// Check if the private key string is a valid hex string
-	if _, err := hex.DecodeString(privateKeyStr); err != nil {
-		t.Fatalf("Generated private key string is not a valid hex string: %v", err)
+	// Check if the public key is of the correct type
+	if _, err := hex.DecodeString(publicKey); err != nil {
+		t.Fatalf("Generated public key is not of type string: %v", err)
+	}
+}
+
+// TestGenerateKeyPair tests the GenerateKeyPair function.
+func TestGenerateKeyPair(t *testing.T) {
+	// Generate a new key pair
+	privateKey, publicKey, err := cryptoutils.GenerateKeyPair()
+
+	// Check for errors
+	if err != nil {
+		t.Fatalf("Failed to generate key pair: %v", err)
+	}
+
+	// Check if the private key is empty
+	if privateKey == "" {
+		t.Fatal("Generated private key is empty")
+	}
+
+	// Check if the public key is empty
+	if publicKey == "" {
+		t.Fatal("Generated public key is empty")
+	}
+
+	// Check if the private key is of the correct type
+	if _, err := hex.DecodeString(privateKey); err != nil {
+		t.Fatalf("Generated private key is not of type string: %v", err)
+	}
+
+	// Check if the public key is of the correct type
+	if _, err := hex.DecodeString(publicKey); err != nil {
+		t.Fatalf("Generated public key is not of type string: %v", err)
 	}
 }

@@ -15,16 +15,27 @@ func GeneratePrivateKey() (*ecdsa.PrivateKey, error) {
 	return ecdsa.GenerateKey(curve, rand.Reader)
 }
 
-// GeneratePrivateKeyStr generates a new ECDSA private key and returns it as a string.
-func GeneratePrivateKeyStr() (string, error) {
+// GeneratePublicKey generates the public key from the given private key.
+func GeneratePublicKey(privateKey *ecdsa.PrivateKey) string {
+	// Generate the public key from the private key
+	compressed := elliptic.MarshalCompressed(privateKey.Curve, privateKey.PublicKey.X, privateKey.PublicKey.Y)
+	// Return the public key
+	return hex.EncodeToString(compressed)
+}
+
+// GenerateKeyPair generates a new ECDSA key pair (private and public keys) and returns them as strings.
+func GenerateKeyPair() (string, string, error) {
 	// Generate a new private key
 	privateKey, err := GeneratePrivateKey()
 
 	// Check for errors
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
-	// Convert the private key to bytes and then to a hex string
-	return hex.EncodeToString(privateKey.D.Bytes()), nil
+	// Generate the public key from the private key
+	publicKey := GeneratePublicKey(privateKey)
+
+	// Return the private and public keys as strings
+	return hex.EncodeToString(privateKey.D.Bytes()), publicKey, nil
 }
