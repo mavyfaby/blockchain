@@ -4,7 +4,6 @@ import (
 	"encoding/base32"
 	"encoding/hex"
 	"errors"
-	"strings"
 
 	"lukechampine.com/blake3"
 )
@@ -32,9 +31,6 @@ func GenerateWalletAddress(publicKey string) (string, error) {
 	// In my own implementation,
 	// I would use Blake3 for deriving the public key to generate the wallet address
 	hash := blake3.Sum256(publicKeyBytes)
-	// Get the base32 encoding of the hash
-	address := base32.StdEncoding.EncodeToString(hash[:])
-
-	// Remove the padding characters from the base32 string
-	return strings.ReplaceAll(address, "=", ""), nil
+	// Encode the hash to base32 without padding
+	return base32.StdEncoding.WithPadding(base32.NoPadding).EncodeToString(hash[:]), nil
 }

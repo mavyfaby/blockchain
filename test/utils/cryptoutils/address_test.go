@@ -1,6 +1,7 @@
 package cryptoutils
 
 import (
+	"encoding/base32"
 	"mavyfaby/blockchain/internal/utils/cryptoutils"
 	"testing"
 )
@@ -37,12 +38,26 @@ func TestGenerateWalletAddress(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			address, err := cryptoutils.GenerateWalletAddress(tt.input)
 
+			// Check if the address is not empty
 			if tt.valid {
+				// Check if the address is not empty
 				if err != nil {
 					t.Errorf("expected no error, got %v", err)
 				}
+
+				// Check if the address is not empty
 				if address == "" {
 					t.Errorf("expected a valid address, got empty string")
+				}
+
+				// Check if the address is a valid base32 string
+				decoded, err := base32.StdEncoding.WithPadding(base32.NoPadding).DecodeString(address)
+
+				// if has error then it is not a valid base32 string
+				if err != nil {
+					t.Errorf("expected a valid base32 string, got error %v", err)
+				} else if len(decoded) == 0 { // Check if the decoded result is not empty
+					t.Errorf("expected a valid base32 string, got empty decoded result")
 				}
 			} else {
 				if err == nil {
