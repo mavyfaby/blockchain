@@ -23,6 +23,7 @@ You can find the project proposal in the [proposal.md](proposal.md) file.
 *Here I posts some references that I used in the process of learning and developing a blockchain.*
 
 1. [Bitcoin: A Peer-to-Peer Electronic Cash System](https://bitcoin.org/bitcoin.pdf)
+2. [Build Your Own Blockchain (Management for Professionals)](https://dokumen.pub/build-your-own-blockchain-management-for-professionals-9783030401412-9783030401429-3030401413.html)
 
 ## Project author
 
